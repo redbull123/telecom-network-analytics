@@ -208,3 +208,5 @@ temp/
 # Config files with sensitive data (use .example instead)
 config.local.yaml
 .env.local
+
+.pdf

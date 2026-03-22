@@ -52,7 +52,6 @@ Este proyecto implementa un pipeline completo de ingeniería de datos para anali
 - **Handover Success Rate (HOSR):** % de handovers sin fallo
 - **Paging Success Rate:** Tiempo de respuesta promedio de paging
 - **Service Request Success Rate:** % de service requests exitosos
-- **Detach Success Rate:** % de detach procedures correctos
 
 ### Análisis Dimensionales
 - Distribución temporal (horaria, diaria, semanal)
@@ -97,21 +96,23 @@ mkdir -p data/raw data/processed data/staging
 
 ### Uso del Generador de Datos
 
+> Nota: el script actual se encuentra en `data_generator/generator_2.py`.
+
 #### Generar dataset una sola vez
 
 ```bash
 # Generar 10,000 eventos en JSON
-python data_generator/generator.py --mode once --events 10000 --format json
+python data_generator/generator_2.py --mode batch --events 10000 --format json
 
 # Generar 50,000 eventos en CSV
-python data_generator/generator.py --mode once --events 50000 --format csv
+python data_generator/generator_2.py --mode batch --events 50000 --format csv
 ```
 
-#### Ejecutar en modo continuo (stream simulation)
+#### Ejecutar en modo continuo (simulación de stream)
 
 ```bash
 # Generar 1,000 eventos cada 60 segundos
-python data_generator/generator.py --mode continuous --batch-size 1000 --interval 60
+python data_generator/generator_2.py --mode continuous --events 1000 --interval 60
 
 # Detener con Ctrl+C
 ```
@@ -120,11 +121,35 @@ python data_generator/generator.py --mode continuous --batch-size 1000 --interva
 
 ```bash
 # Con seed para reproducibilidad
-python data_generator/generator.py --mode once --events 10000 --seed 42
+python data_generator/generator_2.py --mode batch --events 10000 --seed 42
 
 # Especificar directorio de salida
-python data_generator/generator.py --mode once --events 10000 --output-dir data/custom_output
+python data_generator/generator_2.py --mode batch --events 10000 --directory data/custom_output
 ```
+
+#### Corrección conocida
+
+- Se corrigió un bug donde el campo `plmn_id` no se incluía en la construcción de `Event` en `generator_2.py`, provocando `Event.__init__() missing 1 required positional argument: 'plmn_id'`. Ahora se genera con `plmn_id` tomado del valor de IMSI.
+
+### Estructura de Datos Sintéticos
+
+Los eventos generados incluyen los siguientes campos:
+
+- `event_id`: Identificador único del evento
+- `timestamp`: Marca de tiempo en formato ISO
+- `event_type`: Tipo de evento (attach, handover, paging, service_request)
+- `result`: Resultado (success, failure)
+- `cause_code`: Código de causa del resultado
+- `imsi`: Identificador internacional de suscriptor móvil
+- `cell_id`: ID de la celda (ECGI)
+- `enodeb_id`: ID del eNodeB
+- `mme_id`: ID del MME
+- `tracking_area`: Área de rastreo (TAI)
+- `duration_ms`: Duración en milisegundos
+- `rat_type`: Tipo de tecnología de acceso radio (LTE)
+- `apn`: Nombre del punto de acceso de red
+- `plmn_id`: Identificador de red pública móvil
+
 
 ### Ejemplos de Uso
 
@@ -257,7 +282,6 @@ Los eventos generados incluyen los siguientes campos:
 - **handover** (25%): X2 handover, S1 handover
 - **paging** (20%): MT call, MT SMS
 - **service_request** (15%): Data, voice, SMS
-- **detach** (5%): UE initiated, network initiated
 
 ## 🤝 Contribuciones
 
