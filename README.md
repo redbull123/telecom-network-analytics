@@ -259,20 +259,20 @@ Los eventos generados incluyen los siguientes campos:
 
 ```json
 {
-  "event_id": "20250119143045_00000001",
-  "timestamp": "2025-01-19T14:30:45.123456",
-  "event_type": "attach",
-  "result": "success",
-  "failure_cause": null,
-  "imsi_hash": "IMSI_123456789",
-  "imei_hash": "IMEI_987654321",
-  "cell_id": "CELL_042",
-  "enodeb_id": "ENB_005",
-  "mme_id": "MME_01",
-  "tracking_area": "TA_3",
-  "duration_ms": 245,
-  "rat_type": "LTE",
-  "frequency_band": "B7"
+        "event_id": "event_1",
+        "timestamp": "2026-03-22T17:46:16.635485",
+        "event_type": "attach",
+        "result": "success",
+        "cause_code": "0_attach success",
+        "imsi": "234133562293375",
+        "cell_id": 2341019851,
+        "enodeb_id": 1986,
+        "mme_id": 2,
+        "tracking_area": 234101,
+        "duration_ms": 152,
+        "rat_type": "LTE",
+        "apn": "fwa.mcc10.mnc234.gprs",
+        "plmn_id": "23413"
 }
 ```
 
