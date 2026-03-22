@@ -291,3 +291,5 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 ⚠️ **Nota:** Este proyecto utiliza datos sintéticos simulados. No contiene información real o confidencial de ninguna red de telecomunicaciones.
 
 **Status:** 🚧 Proyecto en desarrollo activo - Sprint 0 completado, Sprint 1 en progreso
+
+**To run Docker Airflow** docker compose up -d
