@@ -1,47 +1,78 @@
 from airflow import DAG
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from datetime import datetime, timedelta
-from airflow.sdk import dag, task
+from airflow.decorators import dag, task
 import pandas as pd
+import os
+from pathlib import Path
+import shutil
 
 
-default_args ={
-    'owner' : 'airflow',
-    'retries' : 2,
-    'retry_delay' : timedelta(minutes=5)
+default_args = {
+    'owner': 'airflow',
+    'retries': 2,
+    'retry_delay': timedelta(minutes=5)
 }
 
 @dag(
     dag_id='dag_etl',
     default_args=default_args,
     start_date=datetime(2025, 1, 25, 2),
-    schedule='@daily'
+    schedule='@daily',
+    catchup=False
 )
 def etl():
     @task
-    def extract():
-        df = pd.read_json('/opt/airflow/dags/events_20260124_092513.json')
-        print(df.head())
-        return df
-    @task
-    def transform(df):
-        df.loc[:, 'imsi_hash'] = df['imsi_hash'].str.replace('IMSI_', '')
-        print(df.head())
-        return df
-    @task
-    def load(df):
-        hook = PostgresHook(postgres_conn_id='Test-dB')
-        engine = hook.get_sqlalchemy_engine()
-        df.to_sql('events', con=engine, if_exists='replace', index=False)
-        print("Data loaded successfully")
-    
+    def extract_transform_load():
+        # Adjust paths to match your setup
+        raw_dir = Path('/opt/airflow/dags/raw')
+        staging_dir = Path('/opt/airflow/dags/staging')
+        processed_dir = Path('/opt/airflow/dags/processed')
 
-    e = extract()
-    if e:
-        t = transform(e)
-    if t:
-        l = load(t)
-    else:
-        print("It could not transform the data  because the extract task failed.")
+        # Create directories if they don't exist
+        staging_dir.mkdir(exist_ok=True)
+        processed_dir.mkdir(exist_ok=True)
+
+        if not raw_dir.exists():
+            print(f"Raw directory does not exist: {raw_dir}")
+            return
+
+        files_processed = 0
+
+        for file in os.listdir(raw_dir):
+            if file.startswith('events_') and file.endswith('.json'):
+                file_path = raw_dir / file
+                print(f"Processing file: {file}")
+
+                try:
+                    # Extract
+                    df = pd.read_json(file_path)
+                    print(f"Extracted {len(df)} rows from {file}")
+
+                    # Transform
+                    if 'imsi' in df.columns:
+                        df['imsi'] = df['imsi'].str.replace('IMSI_', '')
+                    print(f"Transformed {len(df)} rows")
+
+                    # Load
+                    hook = PostgresHook(postgres_conn_id='Test-dB')
+                    engine = hook.get_sqlalchemy_engine()
+                    df.to_sql('eventos', con=engine, if_exists='append', index=False)
+                    print(f"Data loaded successfully: {len(df)} rows")
+
+                    # Move file to processed
+                    shutil.move(file_path, processed_dir / file)
+                    print(f"File moved to processed: {file}")
+                    files_processed += 1
+
+                except Exception as e:
+                    print(f"Error processing file {file}: {e}")
+                    # Move to staging for manual review
+                    shutil.move(file_path, staging_dir / file)
+
+        print(f"ETL process completed. Files processed: {files_processed}")
+
+    # Execute the ETL process
+    extract_transform_load()
 
 etl_dag = etl()

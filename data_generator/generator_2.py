@@ -148,7 +148,7 @@ class EventGenerator:
     def _range_imsi(self) -> str:
         """Returns a random IMSI string."""
         self.plmn_id = random.choice(list(Imsi)).value
-        return f'{self.plmn_id}{random.randint(1000000000, 9999999999)}'
+        return f'IMSI_{self.plmn_id}{random.randint(1000000000, 9999999999)}'
 
     def _rat_type(self) -> str:
         """Returns a random RAT type string."""
