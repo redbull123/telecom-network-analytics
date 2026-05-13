@@ -39,7 +39,7 @@ Este proyecto implementa un pipeline completo de ingeniería de datos para anali
 ## 🛠️ Stack Tecnológico
 
 - **Lenguaje:** Python 3.10+
-- **Orchestration:** Apache Airflow 2.7+ *(próximamente)*
+- **Orchestration:** Apache Airflow 2.7+
 - **Base de Datos:** PostgreSQL 14+
 - **Visualización:** Power BI / Streamlit
 - **Containerización:** Docker & Docker Compose *(próximamente)*
@@ -74,7 +74,7 @@ Git
 
 1. **Clonar el repositorio:**
 ```bash
-git clone https://github.com/TU_USUARIO/telecom-network-analytics.git
+git clone https://github.com/redbull123/telecom-network-analytics.git
 cd telecom-network-analytics
 ```
 
@@ -214,44 +214,10 @@ DB_NAME=telecom_analytics
 DB_USER=your_user
 DB_PASSWORD=your_password
 
-# Airflow (próximamente)
+# Airflow 
 AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/airflow
 ```
 
-## 📈 Roadmap
-
-### ✅ Sprint 0 - Setup Inicial (Completado)
-- [x] Configuración de GitHub
-- [x] Generador de datos sintéticos
-- [x] Estructura del proyecto
-- [x] Documentación inicial
-
-### 🔄 Sprint 1 - ETL & Airflow (En Progreso)
-- [ ] Integración con Apache Airflow
-- [ ] DAG de ETL completo
-- [ ] Conexión a PostgreSQL
-- [ ] Data quality checks
-- [ ] KPI calculations
-
-### ⏳ Sprint 2 - Containerización (Próximamente)
-- [ ] Dockerfiles para cada componente
-- [ ] docker-compose.yml
-- [ ] CI/CD básico
-
-### ⏳ Sprint 3 - Cloud Deployment (Próximamente)
-- [ ] Deploy en AWS
-- [ ] Dashboard público
-- [ ] Monitoring y alertas
-
-## 🧪 Testing
-
-```bash
-# Ejecutar tests (próximamente)
-pytest tests/
-
-# Con coverage
-pytest --cov=data_generator tests/
-```
 
 ## 📝 Datos Sintéticos
 
@@ -300,7 +266,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 ## 👤 Autor
 
 **Raul Santana**
-- Packet Core Specialist | Aspiring Data Engineer
+- Packet Core Specialist | EPC & 5G NSA | Network Automation & Data Engineering | Ericsson Stack
 - LinkedIn: [ingraulsantana](https://linkedin.com/in/ingraulsantana)
 - GitHub: [@redbull123](https://github.com/redbull123)
 - Email: rjsantana95@gmail.com
@@ -313,7 +279,3 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 ---
 
 ⚠️ **Nota:** Este proyecto utiliza datos sintéticos simulados. No contiene información real o confidencial de ninguna red de telecomunicaciones.
-
-**Status:** 🚧 Proyecto en desarrollo activo - Sprint 0 completado, Sprint 1 en progreso
-
-**To run Docker Airflow** docker compose up -d
