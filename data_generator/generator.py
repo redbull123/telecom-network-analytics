@@ -289,7 +289,7 @@ def main() -> None:
     parser.add_argument("--events", type=int, default=1000, help="Number of events to generate")
     parser.add_argument("--interval", type=int, default=60, help="Interval between batches in seconds")
     parser.add_argument("--format", choices=["json", "csv"], default="json", help="Output format")
-    parser.add_argument("--directory", type=str, default="C:\\Users\\rjsan\\OneDrive\\Escritorio\\Projects\\Projects\\projects_portafolio\\data\\raw\\", help="Directory to save events")
+    parser.add_argument("--directory", type=str, default="data/raw", help="Directory to save events")
     parser.add_argument("--seed", type=int, default=None, help="Random seed for reproducibility (any integer)")
     args = parser.parse_args()
 
