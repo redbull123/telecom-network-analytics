@@ -1,0 +1,11 @@
+database:
+  host: ${DB_HOST:-localhost}
+  port: ${DB_PORT:-5432}
+  name: ${DB_NAME:-postgres}
+  user: ${DB_USER:-postgres}
+  password: ${DB_PASSWORD:-postgres}
+
+paths:
+  raw: ${RAW_DATA_DIR:-data/raw}
+  staging: ${STAGING_DATA_DIR:-data/staging}
+  processed: ${PROCESSED_DATA_DIR:-data/processed}
