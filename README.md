@@ -96,23 +96,23 @@ mkdir -p data/raw data/processed data/staging
 
 ### Uso del Generador de Datos
 
-> Nota: el script actual se encuentra en `data_generator/generator_2.py`.
+> Nota: el script actual se encuentra en `data_generator/generator.py`.
 
 #### Generar dataset una sola vez
 
 ```bash
 # Generar 10,000 eventos en JSON
-python data_generator/generator_2.py --mode batch --events 10000 --format json
+python data_generator/generator.py --mode batch --events 10000 --format json
 
 # Generar 50,000 eventos en CSV
-python data_generator/generator_2.py --mode batch --events 50000 --format csv
+python data_generator/generator.py --mode batch --events 50000 --format csv
 ```
 
 #### Ejecutar en modo continuo (simulación de stream)
 
 ```bash
 # Generar 1,000 eventos cada 60 segundos
-python data_generator/generator_2.py --mode continuous --events 1000 --interval 60
+python data_generator/generator.py --mode continuous --events 1000 --interval 60
 
 # Detener con Ctrl+C
 ```
@@ -121,15 +121,11 @@ python data_generator/generator_2.py --mode continuous --events 1000 --interval 
 
 ```bash
 # Con seed para reproducibilidad
-python data_generator/generator_2.py --mode batch --events 10000 --seed 42
+python data_generator/generator.py --mode batch --events 10000 --seed 42
 
 # Especificar directorio de salida
-python data_generator/generator_2.py --mode batch --events 10000 --directory data/custom_output
+python data_generator/generator.py --mode batch --events 10000 --directory data/custom_output
 ```
-
-#### Corrección conocida
-
-- Se corrigió un bug donde el campo `plmn_id` no se incluía en la construcción de `Event` en `generator_2.py`, provocando `Event.__init__() missing 1 required positional argument: 'plmn_id'`. Ahora se genera con `plmn_id` tomado del valor de IMSI.
 
 ### Estructura de Datos Sintéticos
 
